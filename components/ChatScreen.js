@@ -13,6 +13,7 @@ import { IconButton } from '@mui/material';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import MicIcon from '@mui/icons-material/Mic';
+import SendIcon from '@mui/icons-material/Send';
 import styled from 'styled-components'
 
 const ChatScreen = ({ chat, messages }) => {
@@ -72,6 +73,8 @@ const ChatScreen = ({ chat, messages }) => {
         e.preventDefault();
         scrollToBottom();
 
+        if (!input) return null;
+
         // update last seen
         db.collection('users').doc(user.uid).set({
             lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
@@ -90,8 +93,6 @@ const ChatScreen = ({ chat, messages }) => {
 
     const recipient = recipientSnapshot?.docs?.[0]?.data();
 
-    console.log(recipient);
-    console.log(recipientSnapshot);
     return (
         <Container>
             <Header>
@@ -134,7 +135,14 @@ const ChatScreen = ({ chat, messages }) => {
                 </IconButton>
                 <Input value={input} onChange={e => setInput(e.target.value)} />
                 <button hidden disabled={!input} type='submit' onClick={sendMessage}>Send Message</button>
-                <MicIcon />
+                <SendButton>
+                    {
+                        input ?
+                            <SendIcon style={{ color: 'white' }} disabled={!input} type='submit' onClick={sendMessage} />
+                            :
+                            <MicIcon style={{ color: 'white' }} />
+                    }
+                </SendButton>
             </InputContainer>
         </Container>
     );
@@ -176,9 +184,11 @@ const HeaderIcons = styled.div``;
 const MessageContainer = styled.div`
 min-height:90vh;
 padding:30px;
-background-color:#e5ded8;
+background-image: url(https://i.pinimg.com/originals/ab/ab/60/abab60f06ab52fa7846593e6ae0c9a0b.png);
+background-repeat:repeat;
+background-attachment: fixed;
 
-
+// background-position: 50%;
 `;
 
 const Input = styled.input`
@@ -187,8 +197,8 @@ align-items:center;
 padding:10px;
 position:sticky;
 bottom:0;
-background-color:whitesmoke;
-padding:20px;
+background-color:white;
+padding:15x;
 margin:0 15px;
 outline:none; 
 border:none;
@@ -205,6 +215,10 @@ align-items:center;
 padding:10px;
 position:sticky;
 bottom:0;
-background-color:white;
+background-color:#ececec;
 z-index:100;
+`;
+
+const SendButton = styled(IconButton)`
+background-color:#4caf50 !important;
 `;

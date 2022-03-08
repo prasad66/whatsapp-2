@@ -13,6 +13,7 @@ import { Avatar } from '@mui/material'
 import { IconButton } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
 const Sidebar = () => {
     const [user] = useAuthState(auth);
@@ -62,23 +63,8 @@ const Sidebar = () => {
                 <IconButton>
                     <ChatIcon />
                 </IconButton>
-                <IconButton>
-                    <MoreVertIcon id="basic-button"
-                        aria-controls={open ? 'basic-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={handleClick} />
-                    <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                        }}
-                    >
-                        <MenuItem onClick={handleClose}>Logout</MenuItem>
-                    </Menu>
+                <IconButton onClick={()=>auth.signOut()}>
+                    <PowerSettingsNewIcon color='red'/>
                 </IconButton>
 
             </IconsContainer>
@@ -106,11 +92,9 @@ height:100vh;
 min-width:300px;
 max-width:350px;
 overflow-y: scroll;
-
 ::-webkit-scrollbar{
     display:none
 }
-
 -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 `;
@@ -154,8 +138,6 @@ border-bottom:1px solid whitesmoke
 
 const UserAvatar = styled(Avatar)`
 cursor:pointer;
-
-
 :hover{
     opacity:0.8;
 }

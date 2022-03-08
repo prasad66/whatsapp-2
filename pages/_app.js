@@ -26,7 +26,6 @@ function MyApp({ Component, pageProps }) {
 
   if (loading) return <Loading />
   if (!user) return <Login />
-  console.log(user)
   return <Component {...pageProps} />
 }
 
